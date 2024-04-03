@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+#Directories
+.metadata/
+.settings/
+Drivers/
+Inc/
+Startup/
+*.ioc
+*.ld
