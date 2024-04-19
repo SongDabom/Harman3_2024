@@ -18,10 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "C:\Users\SAMSUNG\STM32CubeIDE\Common\myLib.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "C:\Users\SAMSUNG\STM32CubeIDE\Common\myLib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,31 +62,11 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-int ox = 0, oy = 0;
-
-void ScreenPos()
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
-            int r1 = GetAdcValue();
-            int r2 = GetAdcValue();
-           // HAL_ADC_Stop(&hadc1);   // Multi channel & Single conversion ?   ?   ?   ???????????? 발생  ?????????????  ?   ?  ?  .
-           // printf("\033[10;20H ADC_CH0 : %d\r\n", r1);
-           // printf("\033[12;20H   ADC_CH1 : %d\r\n", r2);
-           int x = (90 * r1) / 4096;
-           int y = (21 * r2) / 4096;
-           printf("\033[%d;%dH ", oy, ox);
-           printf("\033[%d;%dH @", y, x); ox = x; oy = y;
-           //HAL_Delay(300);
-           printf("\033[2J");   // screen clear
+	int val = HAL_ADC_GetValue(&hadc1);
+	printf("ADC Input : %d\r\n", val);
 }
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-     int r1 = GetAdcValue();
-     int r2 = GetAdcValue();
-     printf("\033[10;20H ADC_CH0 : %d\r\n", r1);
-     printf("\033[12;20H   ADC_CH1 : %d\r\n", r2);
-};
 /* USER CODE END 0 */
 
 /**
@@ -122,7 +102,9 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim3);// timer interrupt start
+  ProgramStart();
+
+  HAL_ADC_Start_IT(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -132,8 +114,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-      HAL_Delay(300);
-     }
+  }
   /* USER CODE END 3 */
 }
 
@@ -207,9 +188,8 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ENABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.DiscontinuousConvMode = ENABLE;
-  hadc1.Init.NbrOfDiscConversion = 1;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
