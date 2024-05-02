@@ -98,7 +98,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	{
 		char bb[MAX_BUF];
 		if(GetBuffer(bb))
-			printf("%s\r\n", bb);
+			puts(bb);
 
 	}
 }

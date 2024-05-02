@@ -90,7 +90,7 @@ double usDist(int n)
 		usDelay(60000);	//	minimum delay for next time
 
 	}
-	double dt_avg = sum / 5;
+	double dt_avg = dt_sum / 5;
 	double Dist = 0.0001715 * dt_avg;
 
 	return Dist;
@@ -129,7 +129,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  ProgramStart();
+  //ProgramStart();
   HAL_TIM_Base_Start(&htim2);
   /* USER CODE END 2 */
 

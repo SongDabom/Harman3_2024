@@ -1,0 +1,7 @@
+../Core/Src/myLib.c:13:5:__io_putchar	1
+../Core/Src/myLib.c:18:6:Outs	3
+../Core/Src/myLib.c:29:5:GetAdcValue	1
+../Core/Src/myLib.c:37:6:usDelay	2
+../Core/Src/myLib.c:43:8:Dist	3
+../Core/Src/myLib.c:70:6:ProgramStart	1
+../Core/Src/myLib.c:79:6:Wait	2

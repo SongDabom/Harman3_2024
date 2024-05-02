@@ -1,0 +1,5 @@
+../Core/Src/myLib.c:13:5:__io_putchar	16	static
+../Core/Src/myLib.c:18:6:Outs	16	static
+../Core/Src/myLib.c:29:5:GetAdcValue	4	static
+../Core/Src/myLib.c:37:6:ProgramStart	8	static
+../Core/Src/myLib.c:46:6:Wait	16	static
