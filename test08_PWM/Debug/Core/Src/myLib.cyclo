@@ -1,3 +1,4 @@
 ../Core/Src/myLib.c:14:5:__io_putchar	1
 ../Core/Src/myLib.c:20:5:GetAdcValue	1
 ../Core/Src/myLib.c:29:6:ProgramStart	2
+../Core/Src/myLib.c:37:6:Wait	2

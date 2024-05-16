@@ -33,3 +33,9 @@ void ProgramStart(){
    while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));  // (B1 == 0) if pressed
    printf("\033[2J");   // screen clear
 }
+
+void Wait(int o)
+{
+   printf("Press Blue button to continue\r\n");
+   while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));      //B1 == 0
+}
