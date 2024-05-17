@@ -43,9 +43,6 @@
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim4;
-TIM_HandleTypeDef htim5;
-TIM_HandleTypeDef htim9;
 
 UART_HandleTypeDef huart2;
 
@@ -59,10 +56,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM2_Init(void);
-static void MX_TIM5_Init(void);
 static void MX_TIM1_Init(void);
-static void MX_TIM4_Init(void);
-static void MX_TIM9_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -104,36 +98,20 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM3_Init();
   MX_TIM2_Init();
-  MX_TIM5_Init();
   MX_TIM1_Init();
-  MX_TIM4_Init();
-  MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
   ProgramStart();
   HAL_TIM_Base_Start(&htim2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  // forward
-  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 0);
-  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
-  //LEFT FRONT
-  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
-  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
-  //LEFT BACK
-  HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, 0);
-  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 1);
-  //RIGHT FRONT
-  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 1);
-  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 0);
-  //RIGHT BACK
 
   // backward
   /*
@@ -142,121 +120,154 @@ int main(void)
   HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 1);
   HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 0);
    */
-  int MaxSpeed = 30000;
-  //int current_speed = 0;
+  int MaxSpeed = 8000;
+  int cnt = 0;
+  //int current_speed = 500;
 
-  htim1.Instance->CCR1 = MaxSpeed;
-  htim3.Instance->CCR1 = MaxSpeed;
-  htim4.Instance->CCR1 = MaxSpeed;
-  htim5.Instance->CCR1 = MaxSpeed;
-/*
+
   while (1)
   {
 
+	  // forward
+	  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 1);
+	  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 0);
+	  //LEFT FRONT
+	  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
+	  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
+	  //LEFT BACK
+	  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
+	  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 1);
+	  //RIGHT FRONT
+	  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
+	  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 1);
 	  int num1 = usDist1() * 100;
-	  HAL_Delay(3);
 	  int num2 = usDist2() * 100;
-	  HAL_Delay(3);
 	  int num3 = usDist3() * 100;
 
-	  printf("num1 = %d 	num2 = %d		num3 = %d\r\n", num1, num2, num3);
+	  while(num1 < 0)
+	  {
+		  num1 = usDist1() * 100;
+	  }
 
-	  htim3.Instance->CCR1 = MaxSpeed;
-	  htim5.Instance->CCR1 = MaxSpeed;
-	  htim10.Instance->CCR1 = MaxSpeed;
-	  htim11.Instance->CCR1 = MaxSpeed;
+	  //printf("check num1 %d\r\n", num1);
+	  //HAL_Delay(500);
+	  while(num2 < 0)
+	  {
+		  num2 = usDist2() * 100;
+	  }
+	  //printf("check num2 %d\r\n", num2);
+	  //HAL_Delay(500);
+	  while(num3 < 0)
+	  {
+		  num3 = usDist3() * 100;
+	  }
 
-*/
-    /* USER CODE END WHILE */
+	  int num4 = usDist4() * 100;
 
-    /* USER CODE BEGIN 3 */
-/*
-	 current_speed = MaxSpeed;
+	 	  while(num4 < 0)
+	 	  {
+	 		  num4 = usDist4() * 100;
+	 	  }
 
-	 if(num1 >= 15)
+	 int num5 = usDist5() * 100;
+
+			  while(num5 < 0)
+			  {
+				  num5 = usDist5() * 100;
+			  }
+
+	  //printf("check num3 %d\r\n", num3);
+	  //HAL_Delay(500);
+	printf("num1 = %d 	num2 = %d	num3 = %d	num4 = %d	num5 = %d\r\n", num1, num2, num3, num4, num5);
+	 if(num1 >= 10)
 	 {
+		  // forward
+		  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 1);
+		  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 0);
+		  //LEFT FRONT
+		  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
 		  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
-		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
+		  //LEFT BACK
+		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
+		  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 1);
+		  //RIGHT FRONT
 		  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
-		  HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 1);
+		  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 1);
+		  //RIGHT BACK
 
-		 if(num2 > 15 && num3 > 15) // go forward
+		 if(num2 > 13 && num3 > 13) // go forward
 		 	 {
-		 		TIM3->CCR1 = MaxSpeed;
-		 		TIM5->CCR1 = MaxSpeed;
+			  htim1.Instance->CCR1 = MaxSpeed;
+			  htim1.Instance->CCR4 = MaxSpeed;
+			  htim3.Instance->CCR1 = MaxSpeed;
+			  htim3.Instance->CCR3 = MaxSpeed;
 
 		 	 }
 
-		 else if((num3 > 15 && num2 <= 15)) // cornering
+		 else if((num3 > 13 && num2 <= 13)) // cornering
 		 {
-			 TIM3->CCR1 = 0;
-			 TIM5->CCR1 = current_speed;
+
+			  htim1.Instance->CCR1 = MaxSpeed;
+			  htim1.Instance->CCR4 = MaxSpeed;
+			  htim3.Instance->CCR1 = 0;
+			  htim3.Instance->CCR3 = 0;
 		 }
-		 else if((num2 > 15 && num3 <= 15)) // cornering
+		 else if((num2 > 13 && num3 <= 13)) // cornering
 		 {
-			TIM3->CCR1 = current_speed;
-			TIM5->CCR1 = 0;
+			  htim1.Instance->CCR1 = 0;
+			  htim1.Instance->CCR4 = 0;
+			  htim3.Instance->CCR1 = MaxSpeed;
+			  htim3.Instance->CCR3 = MaxSpeed;
 		 }
 	 }
-	 else if(num1 < 15)
+
+	 else
 	 {
-		 HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
-		 HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
-		 HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 1);
-		 HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 0);
-		 TIM3->CCR1 = MaxSpeed;
-		 TIM5->CCR1 = MaxSpeed;
-	 }
-*/
-		 /*
-		 while(num2 > 20 || num3 > 20)
-		 {
-
+		 cnt += 1;
+		  // forward
+		  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 0);
+		  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 1);
+		  //LEFT FRONT
+		  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 0);
 		  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
-		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
+		  //LEFT BACK
+		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
+		  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 0);
+		  //RIGHT FRONT
 		  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 1);
-		  HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 0);
-		  TIM3->CCR1 = 500;
-		  TIM1->CCR1 = 500;
+		  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 0);
+		  //RIGHT BACK
+		  htim1.Instance->CCR1 = MaxSpeed;
+		  htim1.Instance->CCR4 = MaxSpeed;
+		  htim3.Instance->CCR1 = MaxSpeed;
+		  htim3.Instance->CCR3 = MaxSpeed;
 
-		  if(num2 > 20 && num3 > 20) // go forward
-		 {
-			  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
-			  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
-			  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
-			  HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 1);
-			 TIM1->CCR1 = MaxSpeed;
-			 TIM3->CCR1 = MaxSpeed;
-		 }
+		  if(cnt == 10){
+			  if(num4 > num5)
+			  {
+				  htim1.Instance->CCR1 = MaxSpeed;
+				  htim1.Instance->CCR4 = MaxSpeed;
+				  htim3.Instance->CCR1 = 0;
+				  htim3.Instance->CCR3 = 0;
+			  }
+			  if(num4 > num5)
+			  {
+				  htim1.Instance->CCR1 = 0;
+				  htim1.Instance->CCR4 = 0;
+				  htim3.Instance->CCR1 = MaxSpeed;
+				  htim3.Instance->CCR3 = MaxSpeed;
+			  }
 
-		 else if(num3 > 20 && num2 <= 20) // cornering
-		 {
-			 HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
-			 HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
-			 HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
-			 HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 1);
-			 TIM3->CCR1 = 0;
-			 TIM1->CCR1 = current_speed;
-		 }
-		 else if(num2 > 20 && num3 <= 20) // cornering
-		 {
-			 HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
-			 HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
-			 HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
-			 HAL_GPIO_WritePin(D10_GPIO_Port, D10_Pin, 1);
-			 TIM3->CCR1 = current_speed;
-			 TIM1->CCR1 = 0;
-		 }
-		 }
+			  HAL_Delay(1000);
+			  cnt = 0;
+
+		  }
 	 }
-*/
 
-	// printf("Compare (TIM1): %4d | TEMP: %5d\r\n ", (int)TIM1->CCR1, temp_speed);
-	 //printf("Compare (TIM3): %4d | TEMP: %5d\r\n ", (int)TIM3->CCR1, temp_speed);
+  }
+    /* USER CODE END WHILE */
 
-	 // 일정 시간 동안 루프를 지연시킴
-
-
+    /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
@@ -329,7 +340,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 84-1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 65535-1;
+  htim1.Init.Period = 50000-1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -360,6 +371,10 @@ static void MX_TIM1_Init(void)
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -448,7 +463,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 84-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535-1;
+  htim3.Init.Period = 50000-1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -478,166 +493,14 @@ static void MX_TIM3_Init(void)
   {
     Error_Handler();
   }
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
   HAL_TIM_MspPostInit(&htim3);
-
-}
-
-/**
-  * @brief TIM4 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM4_Init(void)
-{
-
-  /* USER CODE BEGIN TIM4_Init 0 */
-
-  /* USER CODE END TIM4_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM4_Init 1 */
-
-  /* USER CODE END TIM4_Init 1 */
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 84-1;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 65535-1;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM4_Init 2 */
-
-  /* USER CODE END TIM4_Init 2 */
-  HAL_TIM_MspPostInit(&htim4);
-
-}
-
-/**
-  * @brief TIM5 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM5_Init(void)
-{
-
-  /* USER CODE BEGIN TIM5_Init 0 */
-
-  /* USER CODE END TIM5_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM5_Init 1 */
-
-  /* USER CODE END TIM5_Init 1 */
-  htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 84-1;
-  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 65535-1;
-  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_TIM_PWM_Init(&htim5) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM5_Init 2 */
-
-  /* USER CODE END TIM5_Init 2 */
-  HAL_TIM_MspPostInit(&htim5);
-
-}
-
-/**
-  * @brief TIM9 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM9_Init(void)
-{
-
-  /* USER CODE BEGIN TIM9_Init 0 */
-
-  /* USER CODE END TIM9_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-
-  /* USER CODE BEGIN TIM9_Init 1 */
-
-  /* USER CODE END TIM9_Init 1 */
-  htim9.Instance = TIM9;
-  htim9.Init.Prescaler = 0;
-  htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim9.Init.Period = 65535;
-  htim9.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim9.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim9) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  if (HAL_TIM_ConfigClockSource(&htim9, &sClockSourceConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM9_Init 2 */
-
-  /* USER CODE END TIM9_Init 2 */
 
 }
 
@@ -662,7 +525,7 @@ static void MX_USART2_UART_Init(void)
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
   huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_RTS_CTS;
   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
   if (HAL_UART_Init(&huart2) != HAL_OK)
   {
@@ -692,13 +555,15 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|D7_Pin|D8_Pin|D2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, TRIG5_Pin|TRIG1_Pin|D9_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, D6_Pin|D3_Pin|D5_Pin|D4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|D11_Pin|D8_Pin|D2_Pin
+                          |TRIG4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TRIG2_Pin|D6_Pin|TRIG3_Pin|D3_Pin
+                          |D5_Pin|D4_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -706,26 +571,42 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin D7_Pin D8_Pin D2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|D7_Pin|D8_Pin|D2_Pin;
+  /*Configure GPIO pins : TRIG5_Pin TRIG1_Pin D9_Pin */
+  GPIO_InitStruct.Pin = TRIG5_Pin|TRIG1_Pin|D9_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : ECHO5_Pin ECHO1_Pin */
+  GPIO_InitStruct.Pin = ECHO5_Pin|ECHO1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LD2_Pin D11_Pin D8_Pin D2_Pin
+                           TRIG4_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|D11_Pin|D8_Pin|D2_Pin
+                          |TRIG4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : D6_Pin D3_Pin D5_Pin D4_Pin */
-  GPIO_InitStruct.Pin = D6_Pin|D3_Pin|D5_Pin|D4_Pin;
+  /*Configure GPIO pins : ECHO2_Pin ECHO4_Pin ECHO3_Pin */
+  GPIO_InitStruct.Pin = ECHO2_Pin|ECHO4_Pin|ECHO3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : TRIG2_Pin D6_Pin TRIG3_Pin D3_Pin
+                           D5_Pin D4_Pin */
+  GPIO_InitStruct.Pin = TRIG2_Pin|D6_Pin|TRIG3_Pin|D3_Pin
+                          |D5_Pin|D4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : D9_Pin */
-  GPIO_InitStruct.Pin = D9_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(D9_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
