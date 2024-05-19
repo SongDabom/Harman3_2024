@@ -129,17 +129,19 @@ int main(void)
   {
 
 	  // forward
-	  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 1);
-	  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 0);
+	  HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 0);
+	  HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 1);
 	  //LEFT FRONT
-	  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
-	  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
+	  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 0);
+	  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
 	  //LEFT BACK
 	  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
 	  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 1);
 	  //RIGHT FRONT
 	  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
 	  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 1);
+
+
 	  int num1 = usDist1() * 100;
 	  int num2 = usDist2() * 100;
 	  int num3 = usDist3() * 100;
@@ -188,11 +190,11 @@ int main(void)
 		  HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
 		  HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
 		  //LEFT BACK
-		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
-		  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 1);
+		  HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
+		  HAL_GPIO_WritePin(D8_GPIO_Port, D8_Pin, 0);
 		  //RIGHT FRONT
-		  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 0);
-		  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 1);
+		  HAL_GPIO_WritePin(D9_GPIO_Port, D9_Pin, 1);
+		  HAL_GPIO_WritePin(D11_GPIO_Port, D11_Pin, 0);
 		  //RIGHT BACK
 
 		 if(num2 > 13 && num3 > 13) // go forward
@@ -262,6 +264,7 @@ int main(void)
 			  cnt = 0;
 
 		  }
+
 	 }
 
   }
