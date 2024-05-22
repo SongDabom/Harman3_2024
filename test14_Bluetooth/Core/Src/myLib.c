@@ -10,7 +10,7 @@
 
 //extern ADC_HandleTypeDef hadc1;
 extern UART_HandleTypeDef huart2;
-extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
 
 int __io_putchar(int ch)
 {
@@ -39,7 +39,7 @@ void Wait(int o)
 
 }
 
-
+/*
 void usDelay(int us) // micro-second based Delay
 {
 	volatile uint32_t t1 = htim2.Instance->CNT;
@@ -170,5 +170,4 @@ double usDist5()
 
 	return Dist;
 }
-
-
+*/
