@@ -1,0 +1,10 @@
+../Core/Src/myLib.c:15:5:__io_putchar	1
+../Core/Src/myLib.c:21:6:Outs	3
+../Core/Src/myLib.c:27:6:ProgramStart	1
+../Core/Src/myLib.c:35:6:Wait	2
+../Core/Src/myLib.c:43:6:usDelay	2
+../Core/Src/myLib.c:49:8:usDist1	3
+../Core/Src/myLib.c:74:8:usDist2	3
+../Core/Src/myLib.c:99:8:usDist3	3
+../Core/Src/myLib.c:124:8:usDist4	3
+../Core/Src/myLib.c:149:8:usDist5	3
