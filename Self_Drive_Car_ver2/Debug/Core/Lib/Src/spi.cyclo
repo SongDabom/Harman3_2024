@@ -1,0 +1,7 @@
+../Core/Lib/Src/spi.c:14:6:OLED_SPI_Pins_Init	1
+../Core/Lib/Src/spi.c:47:6:OLED_SPI_Configure	1
+../Core/Lib/Src/spi.c:75:6:OLED_SPI_Write	5
+../Core/Lib/Src/spi.c:99:6:OLED_Select	1
+../Core/Lib/Src/spi.c:104:6:OLED_Deselect	1
+../Core/Lib/Src/spi.c:109:6:OLED_DataMode	1
+../Core/Lib/Src/spi.c:114:6:OLED_CommMode	1

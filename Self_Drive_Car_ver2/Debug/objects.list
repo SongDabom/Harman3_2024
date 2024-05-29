@@ -1,3 +1,8 @@
+"./Core/Lib/Src/delay.o"
+"./Core/Lib/Src/fonts.o"
+"./Core/Lib/Src/oled.o"
+"./Core/Lib/Src/spi.o"
+"./Core/Lib/Src/test.o"
 "./Core/Src/main.o"
 "./Core/Src/myLib.o"
 "./Core/Src/stm32f4xx_hal_msp.o"

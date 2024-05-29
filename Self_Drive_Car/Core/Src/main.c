@@ -76,7 +76,7 @@ static void MX_SPI2_Init(void);
  char buf1[100], dum1;
  int idx1 = 0;
  int Speed = 0;
- int MaxSpeed = 8000;
+ int MaxSpeed = 15000;
  int TurnSpeed = 0;
  int Turn_Flag = 0;
 
