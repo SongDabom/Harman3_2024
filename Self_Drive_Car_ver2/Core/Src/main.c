@@ -93,8 +93,6 @@ int cnt = 0;
 
 unsigned int handle_flag = 0;
 
-
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
    if(huart == &huart1)  // BT input
@@ -225,8 +223,6 @@ void SelfDrive_Mode()
 	{
 		cnt++;
 
-		speed = MaxSpeed;
-
 		HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 1);
 		HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 0);
 
@@ -296,12 +292,7 @@ int main(void)
   MX_TIM5_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
-
   ProgramStart();
-
-
-
 
   HAL_TIM_Base_Start(&htim2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
@@ -319,9 +310,6 @@ int main(void)
   HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
   HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, 1);
 
-
-
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -330,10 +318,6 @@ int main(void)
   {
 	  HAL_UART_RxCpltCallback(&huart1);
 	  HAL_TIM_PeriodElapsedCallback(&htim2);
-
-
-
-
 
 	  if(handle_flag == 0)
 	  {
