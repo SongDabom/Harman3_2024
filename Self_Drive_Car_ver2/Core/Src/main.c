@@ -22,11 +22,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "C:\Users\SAMSUNG\STM32CubeIDE\Common\myLib.h"
-#include "stdlib.h"
 #include "delay.h"
 #include "bitmap.h"
-#include "horse_anim.h"
 #include "oled.h"
+#include "spi.h"
 
 /* USER CODE END Includes */
 
@@ -46,6 +45,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+SPI_HandleTypeDef hspi2;
+
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -67,6 +68,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_SPI2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -75,7 +77,7 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 char buf1[100], dum1;
 int idx1 = 0;
-
+char dum[20];
 int num1 = 0;
 int num2 = 0;
 int num3 = 0;
@@ -88,7 +90,7 @@ int Digonal_Dist = 13;
 int Max_Speed_Dist = 20;
 
 int MaxSpeed = 50000;
-int speed = 15000;
+int speed = 0;
 int cnt = 0;
 
 unsigned int handle_flag = 0;
@@ -154,11 +156,23 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 		   if(speed == MaxSpeed) speed = MaxSpeed;
 		   else speed += 1000;
+		   SSD1306_Clear();
+		   SSD1306_GotoXY(65,30);
+		   sprintf(dum, "%d", speed);
+		   SSD1306_Puts(dum, &Font_11x18, 1);
+		   SSD1306_UpdateScreen();
 		}
 		if(strncmp(buf1,"X0",2) == 0)
 		{
 		   if(speed == 0) speed = 0;
 		   else speed -= 1000;
+		   //SSD1306_Clear();
+		   SSD1306_Clear();
+
+		   SSD1306_GotoXY(65,30);
+		   sprintf(dum, "%d", speed);
+		   SSD1306_Puts(dum, &Font_11x18, 1);
+		   SSD1306_UpdateScreen();
 }
 
       buf1[idx1++] = dum1;
@@ -291,8 +305,12 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM5_Init();
   MX_USART1_UART_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
   ProgramStart();
+
+  HAL_GPIO_WritePin(RST_GPIO_Port, RST_Pin, 0);
+  HAL_GPIO_WritePin(RST_GPIO_Port, RST_Pin, 1);
 
   HAL_TIM_Base_Start(&htim2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
@@ -301,7 +319,13 @@ int main(void)
   HAL_UART_RxCpltCallback(&huart1);
   HAL_TIM_PeriodElapsedCallback(&htim2);
 
+  SSD1306_Init();
+  SSD1306_Clear();
 
+  SSD1306_GotoXY(65,30);
+  sprintf(dum, "%d", speed);
+  SSD1306_Puts(dum, &Font_11x18, 1);
+  SSD1306_UpdateScreen();
 
   //Left Motor Forward
   HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 0);
@@ -322,9 +346,15 @@ int main(void)
 	  if(handle_flag == 0)
 	  {
 		  SelfDrive_Mode();
+		  SSD1306_GotoXY(5,10);
+		  SSD1306_Puts("AUTO: ", &Font_11x18, 1);
+		  SSD1306_UpdateScreen();
 	  }
 	  else
 	  {
+		  SSD1306_GotoXY(1,10);
+		  SSD1306_Puts("MANUAL: ", &Font_11x18, 1);
+		  SSD1306_UpdateScreen();
 		  HAL_UART_RxCpltCallback(&huart1);
 		  HAL_TIM_PeriodElapsedCallback(&htim2);
 	  }
@@ -437,6 +467,44 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief SPI2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI2_Init(void)
+{
+
+  /* USER CODE BEGIN SPI2_Init 0 */
+
+  /* USER CODE END SPI2_Init 0 */
+
+  /* USER CODE BEGIN SPI2_Init 1 */
+
+  /* USER CODE END SPI2_Init 1 */
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI2_Init 2 */
+
+  /* USER CODE END SPI2_Init 2 */
+
 }
 
 /**
@@ -750,7 +818,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, A0_Pin|TRIG5_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, LD2_Pin|D7_Pin|D2_Pin|TRIG4_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, LD2_Pin|D7_Pin|D2_Pin|TRIG4_Pin
+                          |RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, TRIG3_Pin|D6_Pin|TRIG1_Pin|TRIG2_Pin
@@ -769,8 +838,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LD2_Pin D7_Pin D2_Pin TRIG4_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|D7_Pin|D2_Pin|TRIG4_Pin;
+  /*Configure GPIO pins : LD2_Pin D7_Pin D2_Pin TRIG4_Pin
+                           RST_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin|D7_Pin|D2_Pin|TRIG4_Pin
+                          |RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
